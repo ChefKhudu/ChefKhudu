@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chef Khudu | Private Chef</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a;
+      --border: #222222; --gold: #c9a84c; --gold-light: #e8c97a;
+      --text: #f0ede8; --text-muted: #888; --text-soft: #bbb;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 5%; background: rgba(10,10,10,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-logo img { height: 38px; width: auto; display: block; filter: brightness(0) invert(1); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: var(--text-soft); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: var(--gold) !important; color: #000 !important; padding: 0.55rem 1.4rem; border-radius: 2px; font-weight: 600 !important; }
+    .nav-cta:hover { background: var(--gold-light) !important; }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; padding: 8rem 5% 5rem; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 70%), linear-gradient(180deg, #0a0a0a 0%, #0f0f0f 100%); }
+    .hero-grain { position: absolute; inset: 0; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-size: 200px; }
+    .hero-content { position: relative; max-width: 720px; }
+    .hero-eyebrow { display: inline-block; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.8rem; font-weight: 500; }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.6rem, 7vw, 5.2rem); font-weight: 800; line-height: 1.05; margin-bottom: 1.5rem; color: var(--text); text-transform: uppercase; letter-spacing: 0.02em; }
+    h1 span { color: var(--gold); }
+    .hero-sub { font-size: 1.05rem; color: var(--text-muted); max-width: 480px; margin: 0 auto 2.5rem; font-weight: 300; line-height: 1.9; }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--gold); color: #000; padding: 1rem 2.2rem; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background .2s, transform .2s; }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-outline { border: 1px solid var(--border); color: var(--text-soft); padding: 1rem 2.2rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: border-color .2s, color .2s, transform .2s; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
+
+    /* SECTIONS */
+    section { padding: 6rem 5%; }
+    .section-label { font-size: 0.7rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 0.8rem; text-align: center; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; text-align: center; margin-bottom: 1rem; line-height: 1.15; text-transform: uppercase; letter-spacing: 0.02em; }
+    .section-sub { text-align: center; color: var(--text-muted); max-width: 500px; margin: 0 auto 4rem; font-size: 0.92rem; line-height: 1.9; }
+
+    /* ABOUT */
+    #about { background: var(--surface); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+    .about-visual { position: relative; aspect-ratio: 4/5; border-radius: 2px; overflow: hidden; }
+    .about-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .about-text h2 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem; text-transform: uppercase; }
+    .about-text h2 em { font-style: italic; color: var(--gold); text-transform: none; }
+    .about-text p { color: var(--text-muted); font-size: 0.93rem; line-height: 1.9; margin-bottom: 1.2rem; }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 2rem; color: var(--gold); font-weight: 800; }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em; margin-top: 0.2rem; }
+
+    /* SERVICES */
+    #services { background: var(--bg); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5px; max-width: 1100px; margin: 0 auto; background: var(--border); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+    .service-card { background: var(--surface); padding: 2.5rem; transition: background .2s; }
+    .service-card:hover { background: var(--surface2); }
+    .service-icon { width: 42px; height: 42px; border: 1px solid var(--gold); border-radius: 2px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.4rem; font-size: 1.2rem; }
+    .service-card h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .service-card p { color: var(--text-muted); font-size: 0.87rem; line-height: 1.85; }
+
+    /* GALLERY */
+    #gallery { background: var(--surface); padding: 6rem 0; }
+    #gallery .section-label, #gallery .section-title, #gallery .section-sub { padding: 0 5%; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; max-width: 100%; }
+    .gallery-item { overflow: hidden; background: var(--surface2); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+    .gallery-item:hover img { transform: scale(1.05); }
+    .gallery-item { aspect-ratio: 1; }
+    .gallery-item.tall { grid-row: span 2; aspect-ratio: unset; }
+    .gallery-item.wide { grid-column: span 2; aspect-ratio: 2/1; }
+
+    /* TESTIMONIALS */
+    #testimonials { background: var(--bg); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+    .testimonial-card { background: var(--surface); border: 1px solid var(--border); padding: 2.5rem; border-radius: 2px; }
+    .testimonial-quote { font-size: 3rem; color: var(--gold); opacity: 0.25; font-family: 'Syne', sans-serif; line-height: 1; margin-bottom: 1rem; }
+    .testimonial-text { color: var(--text-soft); font-size: 0.91rem; line-height: 1.9; margin-bottom: 1.5rem; font-style: italic; }
+    .stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 0.1em; margin-bottom: 1rem; }
+    .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+    .author-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.82rem; color: var(--gold); font-weight: 700; }
+    .author-name { font-size: 0.88rem; font-weight: 600; }
+    .author-role { font-size: 0.76rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+    /* CONTACT */
+    #contact { background: var(--surface); }
+    .contact-wrapper { max-width: 700px; margin: 0 auto; }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .form-group input, .form-group select, .form-group textarea { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 0.9rem 1rem; font-family: 'Inter', sans-serif; font-size: 0.9rem; border-radius: 2px; outline: none; transition: border-color .2s; appearance: none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: #444; }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+    .form-submit { background: var(--gold); color: #000; border: none; padding: 1.1rem 2rem; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: background .2s, transform .2s; font-family: 'Inter', sans-serif; align-self: flex-start; }
+    .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .contact-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--border); text-align: center; }
+    .contact-info-item .icon { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .contact-info-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+    .contact-info-value { font-size: 0.86rem; color: var(--text-soft); }
+
+    /* FOOTER */
+    footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2.5rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo img { height: 32px; width: auto; filter: brightness(0) invert(1); opacity: 0.7; }
+    .footer-text { font-size: 0.78rem; color: var(--text-muted); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.78rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { aspect-ratio: 3/2; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-info { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item.tall, .gallery-item.wide { grid-row: span 1; grid-column: span 1; aspect-ratio: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#hero" class="nav-logo">
+      <img src="images/logo.png" alt="Chef Khudu" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact" class="nav-cta">Book Now</a></li>
+    </ul>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Lagos &amp; London &nbsp;&middot;&nbsp; Private Chef</div>
+      <h1>Crafted with<br/><span>Passion.</span> Served<br/>in Style.</h1>
+      <p class="hero-sub">Bespoke dining experiences tailored to you — from intimate dinners to exclusive events, every plate tells a story.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Book an Experience</a>
+        <a href="#gallery" class="btn-outline">View Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <img src="images/about.jpg" alt="Chef Khudu" />
+      </div>
+      <div class="about-text reveal">
+        <p class="section-label" style="text-align:left;">About</p>
+        <h2>The Art of <em>Elevated</em> Private Dining</h2>
+        <p>I'm Chef Khudu — a private chef dedicated to creating unforgettable culinary experiences in the comfort of your own space. With a passion for bold flavours and precise technique, every dish is crafted from the finest seasonal ingredients.</p>
+        <p>Whether it's a romantic dinner for two, a family celebration, or a corporate gathering, I bring the restaurant to you — curated menus, professional service, and zero stress.</p>
+        <div class="about-stats">
+          <div><div class="stat-num">8+</div><div class="stat-label">Years Experience</div></div>
+          <div><div class="stat-num">500+</div><div class="stat-label">Events Catered</div></div>
+          <div><div class="stat-num">100%</div><div class="stat-label">Client Satisfaction</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <p class="section-label reveal">What I Offer</p>
+    <h2 class="section-title reveal">Services</h2>
+    <p class="section-sub reveal">From intimate evenings to large celebrations — every experience is personalised.</p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">🕯️</div>
+        <h3>Private Dining</h3>
+        <p>An exclusive multi-course dinner experience at your home or venue of choice. Fully customised menus and seamless service from start to finish.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🥂</div>
+        <h3>Event Catering</h3>
+        <p>Elevate your celebrations — weddings, birthdays, corporate events — with bespoke menus designed to impress your guests.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">👨‍🍳</div>
+        <h3>Restaurant Consultation</h3>
+        <p>Expert guidance for restaurants and hospitality businesses — menu development, kitchen strategy, and culinary direction tailored to your concept.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🍳</div>
+        <h3>Cooking Masterclasses</h3>
+        <p>Learn the techniques behind elevated cuisine. Private and group sessions available — from basics to advanced culinary skills.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <p class="section-label reveal" style="padding: 0 5%;">The Work</p>
+    <h2 class="section-title reveal" style="padding: 0 5%;">A Taste of What We Do</h2>
+    <p class="section-sub reveal" style="padding: 0 5%;">A glimpse into the experiences, events, and dishes crafted by Chef Khudu.</p>
+    <div class="gallery-grid">
+      <div class="gallery-item tall reveal">
+        <img src="images/scallops.jpg" alt="Scallop dishes" />
+      </div>
+      <div class="gallery-item reveal">
+        <img src="images/about.jpg" alt="Plated dish" />
+      </div>
+      <div class="gallery-item reveal">
+        <img src="images/dumpling.jpg" alt="Artistic dumpling" />
+      </div>
+      <div class="gallery-item reveal">
+        <img src="images/beef.jpg" alt="Seared beef" />
+      </div>
+      <div class="gallery-item reveal">
+        <img src="images/event.jpg" alt="Event catering" />
+      </div>
+      <div class="gallery-item wide reveal">
+        <img src="images/table.jpg" alt="Table setting" />
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <p class="section-label reveal">Kind Words</p>
+    <h2 class="section-title reveal">Client Reviews</h2>
+    <p class="section-sub reveal">Experiences that stay with you long after the last bite.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Chef Khudu turned our anniversary dinner into the most magical evening. The food was absolutely extraordinary — every dish was a work of art.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">SA</div>
+          <div><div class="author-name">Sarah &amp; Alex</div><div class="author-role">Private Dinner, London</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">We hired Chef Khudu for our corporate year-end function. The quality, professionalism, and creativity were unmatched. Our guests are still talking about it!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">TM</div>
+          <div><div class="author-name">Thandi Molefe</div><div class="author-role">Corporate Event, Lagos</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Chef Khudu completely transformed our restaurant's menu. His insight into flavour, seasonality, and concept was invaluable.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">JN</div>
+          <div><div class="author-name">James Nkosi</div><div class="author-role">Restaurant Consultation, Lagos</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <p class="section-label reveal">Get in Touch</p>
+    <h2 class="section-title reveal">Book Your Experience</h2>
+    <p class="section-sub reveal">Fill in the form and I'll get back to you within 24 hours to discuss your event.</p>
+    <div class="contact-wrapper">
+      <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" placeholder="Your name" required /></div>
+          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Your surname" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="grid-column: 1 / -1;"><label>Email Address</label><input type="email" placeholder="your@email.com" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Service</label>
+            <select>
+              <option value="">Select a service...</option>
+              <option>Private Dining</option>
+              <option>Event Catering</option>
+              <option>Restaurant Consultation</option>
+              <option>Cooking Masterclass</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Number of Guests</label><input type="number" placeholder="e.g. 8" min="1" /></div>
+        </div>
+        <div class="form-group"><label>Message</label><textarea placeholder="Tell me about your event — date, occasion, dietary requirements, and any special requests..."></textarea></div>
+        <button type="submit" class="form-submit">Send Enquiry &rarr;</button>
+      </form>
+      <div class="contact-info reveal">
+        <div class="contact-info-item"><div class="icon">📍</div><div class="contact-info-label">Based In</div><div class="contact-info-value">Lagos &amp; London</div></div>
+        <div class="contact-info-item"><div class="icon">📧</div><div class="contact-info-label">Email</div><div class="contact-info-value">Chefkhudu@gmail.com</div></div>
+        <div class="contact-info-item"><div class="icon">📸</div><div class="contact-info-label">Instagram</div><div class="contact-info-value"><a href="https://instagram.com/chefkhudu" target="_blank" style="color:var(--gold);text-decoration:none;">@chefkhudu</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="#hero" class="footer-logo"><img src="images/logo.png" alt="Chef Khudu" /></a>
+    <p class="footer-text">Lagos &amp; London &nbsp;&middot;&nbsp; &copy; 2026 Chef Khudu. All rights reserved.</p>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="https://instagram.com/chefkhudu" target="_blank">@chefkhudu</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = '✓ Enquiry Sent!';
+      btn.style.background = '#2d6a4f';
+      btn.style.color = '#fff';
+      setTimeout(() => { btn.innerHTML = 'Send Enquiry &rarr;'; btn.style.background = ''; btn.style.color = ''; e.target.reset(); }, 3000);
+    }
+  </script>
+</body>
+</html>
