@@ -264,17 +264,20 @@ footer { flex-direction: column; text-align: center; }
 <p class="section-sub reveal">Fill in the form and I'll get back to you within 24 hours to discuss your event.</p>
 <div class="contact-wrapper">
 <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+<input type="hidden" name="access_key" value="f3b26cea-17ef-4357-8d81-793336fde615" />
+<input type="hidden" name="subject" value="New Enquiry from ChefKhudu.com" />
+<input type="hidden" name="from_name" value="Chef Khudu Website" />
 <div class="form-row">
-<div class="form-group"><label>First Name</label><input type="text" placeholder="Your name" required /></div>
-<div class="form-group"><label>Last Name</label><input type="text" placeholder="Your surname" required /></div>
+<div class="form-group"><label>First Name</label><input type="text" name="first_name" placeholder="Your name" required /></div>
+<div class="form-group"><label>Last Name</label><input type="text" name="last_name" placeholder="Your surname" required /></div>
 </div>
 <div class="form-row">
-<div class="form-group" style="grid-column: 1 / -1;"><label>Email Address</label><input type="email" placeholder="your@email.com" required /></div>
+<div class="form-group" style="grid-column: 1 / -1;"><label>Email Address</label><input type="email" name="email" placeholder="your@email.com" required /></div>
 </div>
 <div class="form-row">
 <div class="form-group">
 <label>Service</label>
-<select>
+<select name="service">
 <option value="">Select a service...</option>
 <option>Private Dining</option>
 <option>Event Catering</option>
@@ -282,9 +285,9 @@ footer { flex-direction: column; text-align: center; }
 <option>Cooking Masterclass</option>
 </select>
 </div>
-<div class="form-group"><label>Number of Guests</label><input type="number" placeholder="e.g. 8" min="1" /></div>
+<div class="form-group"><label>Number of Guests</label><input type="number" name="guests" placeholder="e.g. 8" min="1" /></div>
 </div>
-<div class="form-group"><label>Message</label><textarea placeholder="Tell me about your event — date, occasion, dietary requirements, and any special requests..."></textarea></div>
+<div class="form-group"><label>Message</label><textarea name="message" placeholder="Tell me about your event — date, occasion, dietary requirements, and any special requests..."></textarea></div>
 <button type="submit" class="form-submit">Send Enquiry &rarr;</button>
 </form>
 <div class="contact-info reveal">
@@ -320,11 +323,52 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 function handleSubmit(e) {
 e.preventDefault();
-const btn = e.target.querySelector('.form-submit');
+const form = e.target;
+const btn = form.querySelector('.form-submit');
+const originalText = btn.innerHTML;
+btn.textContent = 'Sending...';
+btn.disabled = true;
+
+const formData = new FormData(form);
+const object = Object.fromEntries(formData);
+const json = JSON.stringify(object);
+
+fetch('https://api.web3forms.com/submit', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+Accept: 'application/json'
+},
+body: json
+})
+.then(async (response) => {
+const result = await response.json();
+if (result.success) {
 btn.textContent = '✓ Enquiry Sent!';
 btn.style.background = '#2d6a4f';
 btn.style.color = '#fff';
-setTimeout(() => { btn.innerHTML = 'Send Enquiry &rarr;'; btn.style.background = ''; btn.style.color = ''; e.target.reset(); }, 3000);
+form.reset();
+} else {
+btn.textContent = '✗ Something went wrong';
+btn.style.background = '#a33';
+btn.style.color = '#fff';
+console.error('Web3Forms error:', result);
+}
+})
+.catch((error) => {
+btn.textContent = '✗ Something went wrong';
+btn.style.background = '#a33';
+btn.style.color = '#fff';
+console.error('Submission error:', error);
+})
+.finally(() => {
+setTimeout(() => {
+btn.innerHTML = originalText;
+btn.style.background = '';
+btn.style.color = '';
+btn.disabled = false;
+}, 3000);
+});
 }
 </script>
 
