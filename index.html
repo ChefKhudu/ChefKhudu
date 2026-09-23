@@ -70,6 +70,9 @@ section { padding: 6rem 5%; }
 .gallery-item { aspect-ratio: 1; }
 .gallery-item.tall { grid-row: span 2; aspect-ratio: unset; }
 .gallery-item.wide { grid-column: span 2; aspect-ratio: 2/1; }
+/* VIDEO */
+.video-wrap { position: relative; aspect-ratio: 16 / 9; width: 90%; max-width: 900px; margin: 0 auto 3rem; background: var(--surface2); }
+.video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 /* TESTIMONIALS */
 #testimonials { background: var(--bg); }
 .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
@@ -118,6 +121,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2.
 footer { flex-direction: column; text-align: center; }
 .gallery-grid { grid-template-columns: repeat(2, 1fr); }
 .gallery-item.tall, .gallery-item.wide { grid-row: span 1; grid-column: span 1; aspect-ratio: 1; }
+.video-wrap { width: 100%; margin-bottom: 2rem; }
 }
 </style>
 </head>
@@ -201,6 +205,11 @@ footer { flex-direction: column; text-align: center; }
 <p class="section-label reveal" style="padding: 0 5%;">The Work</p>
 <h2 class="section-title reveal" style="padding: 0 5%;">A Taste of What We Do</h2>
 <p class="section-sub reveal" style="padding: 0 5%;">A glimpse into the experiences, events, and dishes crafted by Chef Khudu.</p>
+
+<div class="video-wrap reveal">
+<iframe src="https://www.youtube.com/embed/LqM9zTmuemw?si=nLJJEySnvwXqF75k" title="A taste of what Chef Khudu does" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
 <div class="gallery-grid">
 <div class="gallery-item tall reveal">
 <img src="scallops.jpg" alt="Scallop dishes" />
